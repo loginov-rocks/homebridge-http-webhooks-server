@@ -1,5 +1,15 @@
 {
   "accessories": {
+    "pushbuttons": [
+      {
+        "id": "firstPushButton",
+        "name": "First Push Button"
+      },
+      {
+        "id": "secondPushButton",
+        "name": "Second Push Button"
+      }
+    ],
     "switches": [
       {
         "id": "firstSwitch",
