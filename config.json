@@ -1,0 +1,18 @@
+{
+  "switches": [
+    {
+      "id": "firstSwitch",
+      "name": "First Switch"
+    },
+    {
+      "id": "secondSwitch",
+      "name": "Second Switch"
+    }
+  ],
+  "unsupported": [
+    {
+      "id": "unsupportedDevice",
+      "name": "Unsupported Device"
+    }
+  ]
+}
