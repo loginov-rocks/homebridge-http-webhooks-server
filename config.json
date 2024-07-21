@@ -1,18 +1,29 @@
 {
-  "switches": [
-    {
-      "id": "firstSwitch",
-      "name": "First Switch"
-    },
-    {
-      "id": "secondSwitch",
-      "name": "Second Switch"
-    }
-  ],
-  "unsupported": [
-    {
-      "id": "unsupportedDevice",
-      "name": "Unsupported Device"
-    }
-  ]
+  "accessories": {
+    "switches": [
+      {
+        "id": "firstSwitch",
+        "name": "First Switch"
+      },
+      {
+        "id": "secondSwitch",
+        "name": "Second Switch"
+      }
+    ],
+    "unsupported": [
+      {
+        "id": "unsupportedDevice",
+        "name": "Unsupported Device"
+      }
+    ]
+  },
+  "homebridge": {
+    "address": "192.168.0.0"
+  },
+  "plugin": {
+    "port": 51828
+  },
+  "server": {
+    "port": 3000
+  }
 }

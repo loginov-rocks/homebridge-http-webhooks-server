@@ -1,13 +1,12 @@
-export const getPluginConfig = (devices, { platform, webhookPort }) => {
-  const devicesGroups = Object.keys(devices);
-
+export const getPluginConfig = (accessories, { platform, port }) => {
   const pluginConfig = {
     platform,
-    webhook_port: webhookPort,
+    webhook_port: port.toString(),
   };
+  const keys = Object.keys(accessories);
 
-  devicesGroups.forEach((devicesGroup) => {
-    pluginConfig[devicesGroup] = devices[devicesGroup].map((device) => device.getPluginConfig());
+  keys.forEach((key) => {
+    pluginConfig[key] = accessories[key].map((accessory) => accessory.getPluginConfig());
   });
 
   return pluginConfig;

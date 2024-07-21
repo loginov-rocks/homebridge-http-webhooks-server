@@ -1,8 +1,9 @@
-export class Device {
-  constructor({ baseUrl, id, name }) {
+export class AbstractAccessory {
+  constructor({ baseUrl, id, name, pluginApi }) {
     this.baseUrl = baseUrl;
     this.id = id;
     this.name = name;
+    this.pluginApi = pluginApi;
   }
 
   getPluginConfig() {

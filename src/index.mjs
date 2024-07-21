@@ -1,27 +1,33 @@
 import express from 'express';
 
-import { CONFIG_RELATIVE_PATH, PLUGIN_CONFIG_PLATFORM, PLUGIN_CONFIG_WEBHOOK_PORT, PORT } from './constants.mjs';
+import { CONFIG_RELATIVE_PATH, PLUGIN_CONFIG_PLATFORM } from './constants.mjs';
 
-import { devicesMap } from './devices/index.mjs';
+import { accessoriesMap } from './accessories/index.mjs';
 
-import { devicesFactory } from './lib/devicesFactory.mjs';
+import { accessoriesFactory } from './lib/accessoriesFactory.mjs';
 import { getBaseUrl } from './lib/getBaseUrl.mjs';
 import { getPluginConfig } from './lib/getPluginConfig.mjs';
 import { getRoutes } from './lib/getRoutes.mjs';
+import { PluginApi } from './lib/PluginApi.mjs';
 import { readConfig } from './lib/readConfig.mjs';
 
-const baseUrl = getBaseUrl(PORT);
 const config = readConfig(CONFIG_RELATIVE_PATH);
-const devices = devicesFactory(devicesMap, baseUrl, config);
-const pluginConfig = getPluginConfig(devices, {
-  platform: PLUGIN_CONFIG_PLATFORM,
-  webhookPort: PLUGIN_CONFIG_WEBHOOK_PORT,
+
+const baseUrl = getBaseUrl(config.server.port);
+const pluginApi = new PluginApi({
+  address: config.homebridge.address,
+  port: config.plugin.port,
 });
-const routes = getRoutes(devices);
+const accessories = accessoriesFactory(accessoriesMap, config.accessories, { baseUrl, pluginApi });
+const pluginConfig = getPluginConfig(accessories, {
+  platform: PLUGIN_CONFIG_PLATFORM,
+  port: config.plugin.port,
+});
+const routes = getRoutes(accessories);
 
 const app = express();
 
-routes.forEach(({ method, url, handler }) => {
+routes.forEach(({ handler, method, url }) => {
   app[method](url, handler);
 });
 
@@ -29,6 +35,6 @@ app.get('/', (req, res) => {
   res.send(pluginConfig);
 });
 
-app.listen(PORT, () => {
-  console.log(`Homebridge HTTP Webhooks Server is listening on port ${PORT}`);
+app.listen(config.server.port, () => {
+  console.log(`Homebridge HTTP Webhooks Server is listening on port ${config.server.port}`);
 });

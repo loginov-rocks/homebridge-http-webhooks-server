@@ -1,11 +1,10 @@
-export const getRoutes = (devices) => {
-  const devicesGroups = Object.keys(devices);
-
+export const getRoutes = (accessories) => {
   const routes = [];
+  const keys = Object.keys(accessories);
 
-  devicesGroups.forEach((devicesGroup) => {
-    devices[devicesGroup].forEach((device) => {
-      routes.push(...device.getRoutes());
+  keys.forEach((key) => {
+    accessories[key].forEach((accessory) => {
+      routes.push(...accessory.getRoutes());
     });
   });
 
