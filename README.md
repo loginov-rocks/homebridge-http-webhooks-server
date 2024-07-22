@@ -6,24 +6,24 @@ Server for the [homebridge-http-webhooks](https://github.com/benzman81/homebridg
 
 1. Assuming you have [Homebridge](https://homebridge.io) and **Homebridge HTTP Webhooks Plugin** set up and running,
   update the [config.json](#configjson) file according to your environment.
-2. Install dependencies and launch the server:
-  ```sh
-  npm install
-  npm start
-  ```
+2. Install dependencies and launch the server (developed on Node.js v20):
+```sh
+npm install
+npm start
+```
 3. Open `http://localhost:3000` that will provide you with the plugin configuration in JSON format.
 4. Configure **Homebridge HTTP Webhooks Plugin** using the JSON provided by the server.
 
 ## Simulated Accessories
 
-"Two-way" means the accessory is controlled from HomeBridge, but also will report its updated state or value when
+"Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
 triggered outside of **Homebridge**.
 
-| Accessory   | Configuration Field | Supported Features                           |
-| ----------- | ------------------- | -------------------------------------------- |
-| Light       | `lights`            | Work in Progress                             |
-| Push Button | `pushbuttons`       | Two-way push with GET requests               |
-| Switch      | `switches`          | Two-way turning on and off with GET requests |
+| Accessory   | Configuration Field | Supported Features                             |
+| ----------- | ------------------- | ---------------------------------------------- |
+| Light       | `lights`            | Two-way turning on and off, brightness control |
+| Push Button | `pushbuttons`       | Two-way push                                   |
+| Switch      | `switches`          | Two-way turning on and off                     |
 
 Usage of other than GET methods and any type of authorization is currently not supported.
 

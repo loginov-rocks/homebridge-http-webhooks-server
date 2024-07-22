@@ -4,12 +4,11 @@ export class PluginApi {
     this.port = port;
   }
 
-  async updateState(accessoryId, newState) {
-    console.log(`[PluginApi] Updating accessory ID "${accessoryId}" state to "${newState}"...`);
-
+  async request(accessoryId, params) {
     const url = new URL(`http://${this.address}:${this.port}`);
+    const urlSearchParams = new URLSearchParams(params);
+    url.search = urlSearchParams;
     url.searchParams.append('accessoryId', accessoryId);
-    url.searchParams.append('state', newState);
 
     const response = await fetch(url);
 
@@ -29,5 +28,17 @@ export class PluginApi {
       status: response.status,
       body: json,
     });
+  }
+
+  updateState(accessoryId, newState) {
+    console.log(`[PluginApi] Updating accessory ID "${accessoryId}" state to "${newState}"...`);
+
+    return this.request(accessoryId, { state: newState });
+  }
+
+  updateValue(accessoryId, newValue) {
+    console.log(`[PluginApi] Updating accessory ID "${accessoryId}" value to "${newValue}"...`);
+
+    return this.request(accessoryId, { value: newValue });
   }
 }

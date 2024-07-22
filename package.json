@@ -1,7 +1,21 @@
 {
+  "name": "homebridge-http-webhooks-server",
+  "version": "0.1.0",
+  "description": "Server for the homebridge-http-webhooks plugin",
+  "main": "src/index.mjs",
   "scripts": {
     "start": "node src/index.mjs"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loginov-rocks/homebridge-http-webhooks-server.git"
+  },
+  "author": "Danila Loginov <danila@loginov.rocks> (https://loginov.rocks)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loginov-rocks/homebridge-http-webhooks-server/issues"
+  },
+  "homepage": "https://github.com/loginov-rocks/homebridge-http-webhooks-server",
   "dependencies": {
     "express": "^4.19.2"
   }

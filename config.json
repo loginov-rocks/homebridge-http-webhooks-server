@@ -1,5 +1,15 @@
 {
   "accessories": {
+    "lights": [
+      {
+        "id": "firstLight",
+        "name": "First Light"
+      },
+      {
+        "id": "secondLight",
+        "name": "Second Light"
+      }
+    ],
     "pushbuttons": [
       {
         "id": "firstPushButton",
