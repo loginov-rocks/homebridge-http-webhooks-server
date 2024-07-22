@@ -5,16 +5,14 @@ Server for the [homebridge-http-webhooks](https://github.com/benzman81/homebridg
 ## Quick Start
 
 1. Assuming you have [Homebridge](https://homebridge.io) and **Homebridge HTTP Webhooks Plugin** set up and running,
-update the [config.json](#configjson) file according to your environment.
-
+  update the [config.json](#configjson) file according to your environment.
 2. Install dependencies and launch the server:
-
-```sh
-npm install
-npm start
-```
-
-3. Open `http://localhost:3000` to find JSON config for the plugin.
+  ```sh
+  npm install
+  npm start
+  ```
+3. Open `http://localhost:3000` that will provide you with the plugin configuration in JSON format.
+4. Configure **Homebridge HTTP Webhooks Plugin** using the JSON provided by the server.
 
 ## Simulated Accessories
 
