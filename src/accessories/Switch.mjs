@@ -1,6 +1,13 @@
 import { AbstractAccessory } from './AbstractAccessory.mjs';
 
 export class Switch extends AbstractAccessory {
+  constructor(...args) {
+    super(...args);
+
+    this.state = null;
+    this.events = [];
+  }
+
   getPluginConfig() {
     return {
       ...super.getPluginConfig(),
@@ -21,6 +28,11 @@ export class Switch extends AbstractAccessory {
         method: 'get',
         url: this.getOnUrl(),
       },
+      {
+        handler: this.internalHandler.bind(this),
+        method: 'get',
+        url: this.getInternalUrl(),
+      },
     ];
   }
 
@@ -32,19 +44,38 @@ export class Switch extends AbstractAccessory {
     return `/switches/${this.id}/on`;
   }
 
-  async offHandler(req, res) {
-    console.log(`[Switch] Switch "${this.id}" was turned off!`);
+  getInternalUrl() {
+    return `/switches/${this.id}/_internal`;
+  }
 
+  async offHandler(req, res) {
+    const turnedOffAt = new Date();
+    console.log(`[Switch] Switch "${this.id}" was turned off at ${turnedOffAt}`);
+
+    this.state = false;
+    this.events.push({ turnedOffAt });
     await this.pluginApi.updateState(this.id, false);
 
     res.send('OK');
   }
 
   async onHandler(req, res) {
-    console.log(`[Switch] Switch "${this.id}" was turned on!`);
+    const turnedOnAt = new Date();
+    console.log(`[Switch] Switch "${this.id}" was turned on at ${turnedOnAt}`);
 
+    this.state = true;
+    this.events.push({ turnedOnAt });
     await this.pluginApi.updateState(this.id, true);
 
     res.send('OK');
+  }
+
+  internalHandler(req, res) {
+    res.send({
+      id: this.id,
+      name: this.name,
+      state: this.state,
+      events: this.events,
+    });
   }
 }

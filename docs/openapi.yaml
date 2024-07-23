@@ -48,6 +48,13 @@ paths:
               schema:
                 type: string
                 example: OK
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
 
   /lights/{id}/off:
     get:
@@ -91,6 +98,72 @@ paths:
                 type: string
                 example: OK
 
+  /lights/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Lights
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Light ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+                  - type: object
+                    properties:
+                      state:
+                        type: boolean
+                        nullable: true
+                      brightness:
+                        type: integer
+                        nullable: true
+                        minimum: 0
+                        maximum: 100
+                      events:
+                        type: array
+                        items:
+                          oneOf:
+                            - type: object
+                              properties:
+                                turnedOffAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOffAt
+                            - type: object
+                              properties:
+                                turnedOnAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOnAt
+                            - type: object
+                              properties:
+                                brightness:
+                                  type: integer
+                                  minimum: 0
+                                  maximum: 100
+                                changedAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - brightness
+                                - changedAt
+                    required:
+                      - state
+                      - brightness
+                      - events
+
   /pushbuttons/{id}/push:
     get:
       summary: Push
@@ -111,6 +184,42 @@ paths:
               schema:
                 type: string
                 example: OK
+
+  /pushbuttons/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Push Buttons
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Push Button ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+                  - type: object
+                    properties:
+                      events:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            pushedAt:
+                              type: string
+                              format: date-time
+                          required:
+                            - pushedAt
+                    required:
+                      - events
 
   /switches/{id}/off:
     get:
@@ -153,3 +262,64 @@ paths:
               schema:
                 type: string
                 example: OK
+
+  /switches/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Switches
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Switch ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+                  - type: object
+                    properties:
+                      state:
+                        type: boolean
+                        nullable: true
+                      events:
+                        type: array
+                        items:
+                          oneOf:
+                            - type: object
+                              properties:
+                                turnedOffAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOffAt
+                            - type: object
+                              properties:
+                                turnedOnAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOnAt
+                    required:
+                      - state
+                      - events
+
+components:
+  schemas:
+    AbstractAcessoryInternalState:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name

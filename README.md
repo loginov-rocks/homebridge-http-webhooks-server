@@ -22,10 +22,13 @@ that describes all endpoints provided by the server in [Swagger UI](https://edit
 configured accessories outside of **Homebridge**.
 
 Note, that you should start the server on port `3000` and open **Swagger UI** on the same computer as the server is
-running, because the default server URL configured in the OpenAPI specification is `localhost:3000`. Another option is
+running because the default server URL configured in the OpenAPI specification is `localhost:3000`. Another option is
 to edit the
 [openapi.yaml](https://github.com/loginov-rocks/homebridge-http-webhooks-server/blob/main/docs/openapi.yaml) in
 **Swagger UI** to point to the correct address and port.
+
+Apart from the endpoints used by the plugin, the server exposes `_internal` endpoints for every accessory that can be
+used to get the current internal state of the accessory, as well as a history of triggered events.
 
 ## Simulated Accessories
 

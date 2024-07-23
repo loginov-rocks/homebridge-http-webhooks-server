@@ -12,7 +12,7 @@ export class PluginApi {
     url.searchParams.append('accessoryId', accessoryId);
 
     if (this.disableWebhooks) {
-      console.warn('[PluginApi] Request is not executed, because calls back to the plugin webhooks are disabled', {
+      console.warn('[PluginApi] Request is not executed, because calls back to the plugin webhooks are disabled!', {
         url: url.href,
       });
       return;
@@ -21,7 +21,7 @@ export class PluginApi {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.error('[PluginApi] Request failed', {
+      console.error('[PluginApi] Request failed!', {
         url: url.href,
         status: response.status,
         response,

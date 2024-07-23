@@ -1,6 +1,12 @@
 import { AbstractAccessory } from './AbstractAccessory.mjs';
 
 export class PushButton extends AbstractAccessory {
+  constructor(...args) {
+    super(...args);
+
+    this.events = [];
+  }
+
   getPluginConfig() {
     return {
       ...super.getPluginConfig(),
@@ -15,6 +21,11 @@ export class PushButton extends AbstractAccessory {
         method: 'get',
         url: this.getPushUrl(),
       },
+      {
+        handler: this.internalHandler.bind(this),
+        method: 'get',
+        url: this.getInternalUrl(),
+      },
     ];
   }
 
@@ -22,11 +33,25 @@ export class PushButton extends AbstractAccessory {
     return `/pushbuttons/${this.id}/push`;
   }
 
-  async pushHandler(req, res) {
-    console.log(`[PushButton] Push button "${this.id}" was pushed!`);
+  getInternalUrl() {
+    return `/pushbuttons/${this.id}/_internal`;
+  }
 
+  async pushHandler(req, res) {
+    const pushedAt = new Date();
+    console.log(`[PushButton] Push button "${this.id}" was pushed at ${pushedAt}`);
+
+    this.events.push({ pushedAt });
     await this.pluginApi.updateState(this.id, true);
 
     res.send('OK');
+  }
+
+  internalHandler(req, res) {
+    res.send({
+      id: this.id,
+      name: this.name,
+      events: this.events,
+    });
   }
 }
