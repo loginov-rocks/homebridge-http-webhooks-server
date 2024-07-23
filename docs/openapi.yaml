@@ -1,0 +1,155 @@
+openapi: 3.0.3
+
+info:
+  title: Homebridge HTTP Webhooks Server
+  contact:
+    name: Danila Loginov
+    email: danila@loginov.rocks
+    url: https://loginov.rocks
+  version: 0.1.0
+  license:
+    name: MIT
+    url: https://github.com/loginov-rocks/homebridge-http-webhooks-server/blob/main/LICENSE
+
+externalDocs:
+  description: GitHub
+  url: https://github.com/loginov-rocks/homebridge-http-webhooks-server
+
+servers:
+  - url: http://localhost:3000
+    description: Local Server
+
+paths:
+  /lights/{id}/brightness:
+    get:
+      summary: Control Brightness
+      tags:
+        - Lights
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Light ID
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+          description: Brightness Value
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /lights/{id}/off:
+    get:
+      summary: Turn Off
+      tags:
+        - Lights
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Light ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /lights/{id}/on:
+    get:
+      summary: Turn On
+      tags:
+        - Lights
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Light ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /pushbuttons/{id}/push:
+    get:
+      summary: Push
+      tags:
+        - Push Buttons
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Push Button ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /switches/{id}/off:
+    get:
+      summary: Turn Off
+      tags:
+        - Switches
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Switch ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /switches/{id}/on:
+    get:
+      summary: Turn On
+      tags:
+        - Switches
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Switch ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK

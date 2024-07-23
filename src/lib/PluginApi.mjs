@@ -1,6 +1,7 @@
 export class PluginApi {
-  constructor({ address, port }) {
+  constructor({ address, disableWebhooks, port }) {
     this.address = address;
+    this.disableWebhooks = disableWebhooks;
     this.port = port;
   }
 
@@ -9,6 +10,13 @@ export class PluginApi {
     const urlSearchParams = new URLSearchParams(params);
     url.search = urlSearchParams;
     url.searchParams.append('accessoryId', accessoryId);
+
+    if (this.disableWebhooks) {
+      console.warn('[PluginApi] Request is not executed, because calls back to the plugin webhooks are disabled', {
+        url: url.href,
+      });
+      return;
+    }
 
     const response = await fetch(url);
 

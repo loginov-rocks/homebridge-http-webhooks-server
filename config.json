@@ -41,6 +41,7 @@
     "address": "192.168.0.0"
   },
   "plugin": {
+    "disableWebhooks": false,
     "port": 51828
   },
   "server": {

@@ -14,6 +14,19 @@ npm start
 3. Open `http://localhost:3000` that will provide you with the plugin configuration in JSON format.
 4. Configure **Homebridge HTTP Webhooks Plugin** using the JSON provided by the server.
 
+## API
+
+When the server is up and running, you can use the
+[OpenAPI specification](https://github.com/loginov-rocks/homebridge-http-webhooks-server/blob/main/docs/openapi.yaml)
+that describes all endpoints provided by the server in [Swagger UI](https://editor.swagger.io/) to trigger actions on
+configured accessories outside of **Homebridge**.
+
+Note, that you should start the server on port `3000` and open **Swagger UI** on the same computer as the server is
+running, because the default server URL configured in the OpenAPI specification is `localhost:3000`. Another option is
+to edit the
+[openapi.yaml](https://github.com/loginov-rocks/homebridge-http-webhooks-server/blob/main/docs/openapi.yaml) in
+**Swagger UI** to point to the correct address and port.
+
 ## Simulated Accessories
 
 "Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
@@ -54,6 +67,7 @@ Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webho
 | `homebridge`                     | `Object`  | Object containing **Homebridge** settings                                     |
 | `homebridge.address`             | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.0` |
 | `plugin`                         | `Object`  | Object containing **Homebridge HTTP Webhooks Plugin** settings                |
+| `plugin.disableWebhooks`         | `boolean` | Set to `true` to disable calls back to the plugin webhooks                    |
 | `plugin.port`                    | `integer` | Port number configured in the plugin, example: `51828`                        |
 | `server`                         | `Object`  | Object containing server settings                                             |
 | `server.port`                    | `integer` | Port number for the server, example: `3000`                                   |

@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 
 import { CONFIG_RELATIVE_PATH, PLUGIN_CONFIG_PLATFORM } from './constants.mjs';
@@ -16,6 +17,7 @@ const config = readConfig(CONFIG_RELATIVE_PATH);
 const baseUrl = getBaseUrl(config.server.port);
 const pluginApi = new PluginApi({
   address: config.homebridge.address,
+  disableWebhooks: config.plugin.disableWebhooks,
   port: config.plugin.port,
 });
 const accessories = accessoriesFactory(accessoriesMap, config.accessories, { baseUrl, pluginApi });
@@ -26,6 +28,9 @@ const pluginConfig = getPluginConfig(accessories, {
 const routes = getRoutes(accessories);
 
 const app = express();
+
+// CORS enabled to allow testing endpoints from the Swagger UI.
+app.use(cors());
 
 routes.forEach(({ handler, method, url }) => {
   app[method](url, handler);
