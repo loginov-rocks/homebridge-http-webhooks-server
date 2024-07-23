@@ -30,6 +30,16 @@
         "name": "Second Switch"
       }
     ],
+    "thermostats": [
+      {
+        "id": "firstThermostat",
+        "name": "First Thermostat"
+      },
+      {
+        "id": "secondThermostat",
+        "name": "Second Thermostat"
+      }
+    ],
     "unsupported": [
       {
         "id": "unsupportedDevice",

@@ -38,15 +38,36 @@ export class PluginApi {
     });
   }
 
+  /**
+   * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#trigger-change-for-boolean-accessory
+   */
   updateState(accessoryId, newState) {
     console.log(`[PluginApi] Updating accessory ID "${accessoryId}" state to "${newState}"...`);
 
     return this.request(accessoryId, { state: newState });
   }
 
+  /**
+   * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#update-a-numeric-accessory
+   */
   updateValue(accessoryId, newValue) {
     console.log(`[PluginApi] Updating accessory ID "${accessoryId}" value to "${newValue}"...`);
 
     return this.request(accessoryId, { value: newValue });
+  }
+
+  /**
+   * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#thermostat
+   */
+  updateThermostatTargetState(thermostatId, targetState) {
+    console.log(`[PluginApi] Updating thermostat ID "${thermostatId}" target state to "${targetState}"...`);
+
+    return this.request(thermostatId, { targetstate: targetState });
+  }
+
+  updateThermostatTargetTemperature(thermostatId, targetTemperature) {
+    console.log(`[PluginApi] Updating thermostat ID "${thermostatId}" target temperature to "${targetTemperature}"...`);
+
+    return this.request(thermostatId, { targettemperature: targetTemperature });
   }
 }

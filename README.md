@@ -35,11 +35,12 @@ used to get the current internal state of the accessory, as well as a history of
 "Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
 triggered outside of **Homebridge**.
 
-| Accessory   | Configuration Field | Supported Features                             |
-| ----------- | ------------------- | ---------------------------------------------- |
-| Light       | `lights`            | Two-way turning on and off, brightness control |
-| Push Button | `pushbuttons`       | Two-way push                                   |
-| Switch      | `switches`          | Two-way turning on and off                     |
+| Accessory   | Configuration Field | Supported Features                                  |
+| ----------- | ------------------- | --------------------------------------------------- |
+| Light       | `lights`            | Two-way turning on and off, brightness control      |
+| Push Button | `pushbuttons`       | Two-way push                                        |
+| Switch      | `switches`          | Two-way turning on and off                          |
+| Thermostat  | `thermostats`       | Two-way target state and target temperature control |
 
 Usage of other than GET methods and any type of authorization is currently not supported.
 
@@ -67,6 +68,9 @@ Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webho
 | `accessories.switches`           | `Array`   | Array of Switch accessory configurations                                      |
 | `accessories.switches[].id`      | `string`  | Unique identifier for the switch                                              |
 | `accessories.switches[].name`    | `string`  | Name of the switch                                                            |
+| `accessories.thermostats`        | `Array`   | Array of Thermostat accessory configurations                                  |
+| `accessories.thermostats[].id`   | `string`  | Unique identifier for the thermostat                                          |
+| `accessories.thermostats[].name` | `string`  | Name of the thermostat                                                        |
 | `homebridge`                     | `Object`  | Object containing **Homebridge** settings                                     |
 | `homebridge.address`             | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.0` |
 | `plugin`                         | `Object`  | Object containing **Homebridge HTTP Webhooks Plugin** settings                |

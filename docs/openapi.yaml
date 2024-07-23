@@ -22,7 +22,7 @@ servers:
 paths:
   /lights/{id}/brightness:
     get:
-      summary: Control Brightness
+      summary: Set Brightness
       tags:
         - Lights
       parameters:
@@ -309,6 +309,137 @@ paths:
                                 - turnedOnAt
                     required:
                       - state
+                      - events
+
+  /thermostats/{id}/target-state:
+    get:
+      summary: Set Target State
+      tags:
+        - Thermostats
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Thermostat ID
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 3
+          description: Target State Value
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+
+  /thermostats/{id}/target-temperature:
+    get:
+      summary: Set Target Temperature
+      tags:
+        - Thermostats
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Thermostat ID
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Target Temperature Value
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /thermostats/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Thermostats
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Thermostat ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+                  - type: object
+                    properties:
+                      targetState:
+                        type: string
+                        nullable: true
+                        enum:
+                          - off
+                          - heat
+                          - cool
+                          - auto
+                      targetTemperature:
+                        type: number
+                        nullable: true
+                      events:
+                        type: array
+                        items:
+                          oneOf:
+                            - type: object
+                              properties:
+                                changedAt:
+                                  type: string
+                                  format: date-time
+                                targetState:
+                                  type: string
+                                  enum:
+                                    - off
+                                    - heat
+                                    - cool
+                                    - auto
+                              required:
+                                - changedAt
+                                - targetState
+                            - type: object
+                              properties:
+                                changedAt:
+                                  type: string
+                                  format: date-time
+                                targetTemperature:
+                                  type: number
+                              required:
+                                - changedAt
+                                - targetTemperature
+                    required:
+                      - targetState
+                      - targetTemperature
                       - events
 
 components:
