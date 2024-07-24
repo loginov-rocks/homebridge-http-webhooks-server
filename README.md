@@ -48,7 +48,7 @@ triggered outside of **Homebridge**.
 | Accessory   | Configuration Field | Supported Features                                       |
 | ----------- | ------------------- | -------------------------------------------------------- |
 | Light       | `lights`            | Two-way turning on and off, brightness control           |
-| Outlet      | `outlets`           | Two-way turning on and off                               |
+| Outlet      | `outlets`           | Two-way turning on and off, outlet in use state          |
 | Push Button | `pushbuttons`       | Two-way push                                             |
 | Switch      | `switches`          | Two-way turning on and off                               |
 | Thermostat  | `thermostats`       | Two-way current and target state and temperature control |

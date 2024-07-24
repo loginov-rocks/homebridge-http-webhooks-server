@@ -4,6 +4,7 @@ export class Outlet extends AbstractAccessory {
   constructor(...args) {
     super(...args);
 
+    this.inUse = null;
     this.state = null;
     this.events = [];
   }
@@ -31,6 +32,11 @@ export class Outlet extends AbstractAccessory {
       {
         handler: this.getInternalStateHandler.bind(this),
         method: 'get',
+        url: this.getInternalStateUrl(),
+      },
+      {
+        handler: this.patchInternalStateHandler.bind(this),
+        method: 'patch',
         url: this.getInternalStateUrl(),
       },
     ];
@@ -74,8 +80,32 @@ export class Outlet extends AbstractAccessory {
     res.send({
       id: this.id,
       name: this.name,
+      inUse: this.inUse,
       state: this.state,
       events: this.events,
     });
+  }
+
+  async patchInternalStateHandler(req, res) {
+    const { inUse } = req.body;
+
+    if (typeof inUse === 'undefined') {
+      return this.getInternalStateHandler(req, res);
+    }
+
+    if (inUse !== false && inUse !== true) {
+      console.error(`[Outlet] Outlet "${this.id}" in use state cannot be changed to "${inUse}"!`);
+      res.status(400).send('Bad Request');
+      return;
+    }
+
+    const changedAt = new Date();
+    console.log(`[Outlet] Outlet "${this.id}" was changed to ${inUse ? '' : 'not '}in use`);
+
+    this.inUse = inUse;
+    this.events.push({ changedAt, inUse });
+    await this.pluginApi.updateOutletInUse(this.id, inUse);
+
+    return this.getInternalStateHandler(req, res);
   }
 }

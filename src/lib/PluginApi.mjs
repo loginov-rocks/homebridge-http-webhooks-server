@@ -57,6 +57,15 @@ export class PluginApi {
   }
 
   /**
+   * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#outlet
+   */
+  updateOutletInUse(outletId, inUse) {
+    console.log(`[PluginApi] Updating outlet ID "${outletId}" in use state to "${inUse}"...`);
+
+    return this.request(outletId, { stateOutletInUse: inUse });
+  }
+
+  /**
    * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#thermostat
    */
   updateThermostatCurrentState(thermostatId, currentState) {

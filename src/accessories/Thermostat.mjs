@@ -112,8 +112,6 @@ export class Thermostat extends AbstractAccessory {
   }
 
   async patchInternalStateHandler(req, res) {
-    console.log(req.body);
-
     const { currentState, currentTemperature } = req.body;
 
     if (currentState && !['off', 'heat', 'cool'].includes(currentState)) {
