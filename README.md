@@ -16,11 +16,20 @@ npm start
 
 ### Docker
 
-Note: currently does not fully work, because requires local network.
-
 ```sh
 docker build -t homebridge-http-webhooks-server .
+```
+
+```sh
 docker run -p 3000:3000 homebridge-http-webhooks-server
+```
+
+```sh
+docker run -e HOMEBRIDGE_ADDRESS=192.168.0.2 -e SERVER_ADDRESS=192.168.0.3 -p 3000:3000 homebridge-http-webhooks-server
+```
+
+```sh
+docker run -e HOMEBRIDGE_ADDRESS=127.0.0.1 -e SERVER_ADDRESS=127.0.0.1 -p 3000:3000 homebridge-http-webhooks-server
 ```
 
 ## API
@@ -86,9 +95,19 @@ Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webho
 | `accessories.thermostats[].id`   | `string`  | Unique identifier for the thermostat                                          |
 | `accessories.thermostats[].name` | `string`  | Name of the thermostat                                                        |
 | `homebridge`                     | `Object`  | Object containing **Homebridge** settings                                     |
-| `homebridge.address`             | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.0` |
+| `homebridge.address`             | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
 | `plugin`                         | `Object`  | Object containing **Homebridge HTTP Webhooks Plugin** settings                |
 | `plugin.disableWebhooks`         | `boolean` | Set to `true` to disable calls back to the plugin webhooks                    |
 | `plugin.port`                    | `integer` | Port number configured in the plugin, example: `51828`                        |
 | `server`                         | `Object`  | Object containing server settings                                             |
+| `server.address`                 | `string`  | IP address where the server is running, example: `192.168.0.3`                |
 | `server.port`                    | `integer` | Port number for the server, example: `3000`                                   |
+
+## Environment Variables
+
+Optional, override `config.json`, useful when using Docker.
+
+| Variable             | Type     | Description                                                                   |
+| -------------------- | -------- | ----------------------------------------------------------------------------- |
+| `HOMEBRIDGE_ADDRESS` | `string` | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
+| `SERVER_ADDRESS`     | `string` | IP address where the server is running, example: `192.168.0.3`                |

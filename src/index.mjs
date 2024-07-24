@@ -1,22 +1,23 @@
 import cors from 'cors';
 import express from 'express';
 
-import { CONFIG_RELATIVE_PATH, PLUGIN_CONFIG_PLATFORM } from './constants.mjs';
+import { CONFIG_RELATIVE_PATH, HOMEBRIDGE_ADDRESS, PLUGIN_CONFIG_PLATFORM, SERVER_ADDRESS } from './constants.mjs';
 
 import { accessoriesMap } from './accessories/index.mjs';
 
 import { accessoriesFactory } from './lib/accessoriesFactory.mjs';
-import { getBaseUrl } from './lib/getBaseUrl.mjs';
 import { getPluginConfig } from './lib/getPluginConfig.mjs';
 import { getRoutes } from './lib/getRoutes.mjs';
 import { PluginApi } from './lib/PluginApi.mjs';
 import { readConfig } from './lib/readConfig.mjs';
 
 const config = readConfig(CONFIG_RELATIVE_PATH);
+const homebridgeAddress = HOMEBRIDGE_ADDRESS ? HOMEBRIDGE_ADDRESS : config.homebridge.address;
+const serverAddress = SERVER_ADDRESS ? SERVER_ADDRESS : config.server.address;
 
-const baseUrl = getBaseUrl(config.server.port);
+const baseUrl = `http://${serverAddress}:${config.server.port}`;
 const pluginApi = new PluginApi({
-  address: config.homebridge.address,
+  address: homebridgeAddress,
   disableWebhooks: config.plugin.disableWebhooks,
   port: config.plugin.port,
 });
