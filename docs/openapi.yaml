@@ -164,6 +164,96 @@ paths:
                       - brightness
                       - events
 
+  /outlets/{id}/off:
+    get:
+      summary: Turn Off
+      tags:
+        - Outlets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Outlet ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /outlets/{id}/on:
+    get:
+      summary: Turn On
+      tags:
+        - Outlets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Outlet ID
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /outlets/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Outlets
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Outlet ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+                  - type: object
+                    properties:
+                      state:
+                        type: boolean
+                        nullable: true
+                      events:
+                        type: array
+                        items:
+                          oneOf:
+                            - type: object
+                              properties:
+                                turnedOffAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOffAt
+                            - type: object
+                              properties:
+                                turnedOnAt:
+                                  type: string
+                                  format: date-time
+                              required:
+                                - turnedOnAt
+                    required:
+                      - state
+                      - events
+
   /pushbuttons/{id}/push:
     get:
       summary: Push

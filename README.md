@@ -48,6 +48,7 @@ triggered outside of **Homebridge**.
 | Accessory   | Configuration Field | Supported Features                                       |
 | ----------- | ------------------- | -------------------------------------------------------- |
 | Light       | `lights`            | Two-way turning on and off, brightness control           |
+| Outlet      | `outlets`           | Two-way turning on and off                               |
 | Push Button | `pushbuttons`       | Two-way push                                             |
 | Switch      | `switches`          | Two-way turning on and off                               |
 | Thermostat  | `thermostats`       | Two-way current and target state and temperature control |
@@ -72,6 +73,9 @@ Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webho
 | `accessories.lights`             | `Array`   | Array of Light accessory configurations                                       |
 | `accessories.lights[].id`        | `string`  | Unique identifier for the light                                               |
 | `accessories.lights[].name`      | `string`  | Name of the light                                                             |
+| `accessories.outlets`            | `Array`   | Array of Outlet accessory configurations                                      |
+| `accessories.outlets[].id`       | `string`  | Unique identifier for the outlet                                              |
+| `accessories.outlets[].name`     | `string`  | Name of the outlet                                                            |
 | `accessories.pushbuttons`        | `Array`   | Array of Push Button accessory configurations                                 |
 | `accessories.pushbuttons[].id`   | `string`  | Unique identifier for the push button                                         |
 | `accessories.pushbuttons[].name` | `string`  | Name of the push button                                                       |

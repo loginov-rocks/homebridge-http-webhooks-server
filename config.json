@@ -10,6 +10,16 @@
         "name": "Second Light"
       }
     ],
+    "outlets": [
+      {
+        "id": "firstOutlet",
+        "name": "First Outlet"
+      },
+      {
+        "id": "secondOutlet",
+        "name": "Second Outlet"
+      }
+    ],
     "pushbuttons": [
       {
         "id": "firstPushButton",
