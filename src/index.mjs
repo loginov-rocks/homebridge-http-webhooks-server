@@ -31,6 +31,7 @@ const app = express();
 
 // CORS enabled to allow testing endpoints from the Swagger UI.
 app.use(cors());
+app.use(express.json());
 
 routes.forEach(({ handler, method, url }) => {
   app[method](url, handler);

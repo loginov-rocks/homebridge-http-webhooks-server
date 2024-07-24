@@ -36,9 +36,9 @@ export class Light extends AbstractAccessory {
         url: this.getOnUrl(),
       },
       {
-        handler: this.internalHandler.bind(this),
+        handler: this.getInternalStateHandler.bind(this),
         method: 'get',
-        url: this.getInternalUrl(),
+        url: this.getInternalStateUrl(),
       },
     ];
   }
@@ -55,7 +55,7 @@ export class Light extends AbstractAccessory {
     return `/lights/${this.id}/on`;
   }
 
-  getInternalUrl() {
+  getInternalStateUrl() {
     return `/lights/${this.id}/_internal`;
   }
 
@@ -100,7 +100,7 @@ export class Light extends AbstractAccessory {
     res.send('OK');
   }
 
-  internalHandler(req, res) {
+  getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,

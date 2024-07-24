@@ -8,9 +8,15 @@ export class Thermostat extends AbstractAccessory {
     return stateEnum[stateInteger];
   }
 
+  static stateEnumToInteger(stateEnum) {
+    return ['off', 'heat', 'cool', 'auto'].indexOf(stateEnum);
+  }
+
   constructor(...args) {
     super(...args);
 
+    this.currentState = null;
+    this.currentTemperature = null;
     this.targetState = null;
     this.targetTemperature = null;
     this.events = [];
@@ -37,9 +43,14 @@ export class Thermostat extends AbstractAccessory {
         url: this.getTargetTemperatureUrl(),
       },
       {
-        handler: this.internalHandler.bind(this),
+        handler: this.getInternalStateHandler.bind(this),
         method: 'get',
-        url: this.getInternalUrl(),
+        url: this.getInternalStateUrl(),
+      },
+      {
+        handler: this.patchInternalStateHandler.bind(this),
+        method: 'patch',
+        url: this.getInternalStateUrl(),
       },
     ];
   }
@@ -52,7 +63,7 @@ export class Thermostat extends AbstractAccessory {
     return `/thermostats/${this.id}/target-temperature`;
   }
 
-  getInternalUrl() {
+  getInternalStateUrl() {
     return `/thermostats/${this.id}/_internal`;
   }
 
@@ -88,13 +99,58 @@ export class Thermostat extends AbstractAccessory {
     res.send('OK');
   }
 
-  internalHandler(req, res) {
+  getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,
+      currentState: this.currentState,
+      currentTemperature: this.currentTemperature,
       targetState: this.targetState,
       targetTemperature: this.targetTemperature,
       events: this.events,
     });
+  }
+
+  async patchInternalStateHandler(req, res) {
+    console.log(req.body);
+
+    const { currentState, currentTemperature } = req.body;
+
+    if (currentState && !['off', 'heat', 'cool'].includes(currentState)) {
+      console.error(`[Thermostat] Thermostat "${this.id}" current state cannot be changed to "${currentState}"!`);
+      res.status(400).send('Bad Request');
+      return;
+    }
+
+    if (currentTemperature && typeof currentTemperature !== 'number') {
+      console.error(`[Thermostat] Thermostat "${this.id}" current temperature cannot be changed to "${currentTemperature}"!`);
+      res.status(400).send('Bad Request');
+      return;
+    }
+
+    if (!currentState && !currentTemperature) {
+      return this.getInternalStateHandler(req, res);
+    }
+
+    const changedAt = new Date();
+
+    if (currentState) {
+      const currentStateInteger = Thermostat.stateEnumToInteger(currentState);
+      console.log(`[Thermostat] Thermostat "${this.id}" current state was changed to "${currentState}" at ${changedAt}`);
+
+      this.currentState = currentState;
+      this.events.push({ changedAt, currentState });
+      await this.pluginApi.updateThermostatCurrentState(this.id, currentStateInteger);
+    }
+
+    if (currentTemperature) {
+      console.log(`[Thermostat] Thermostat "${this.id}" current temperature was changed to ${currentTemperature}° at ${changedAt}`);
+
+      this.currentTemperature = currentTemperature;
+      this.events.push({ changedAt, currentTemperature });
+      await this.pluginApi.updateThermostatCurrentTemperature(this.id, currentTemperature);
+    }
+
+    return this.getInternalStateHandler(req, res);
   }
 }

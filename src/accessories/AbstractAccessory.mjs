@@ -16,14 +16,14 @@ export class AbstractAccessory {
   getRoutes() {
     return [
       {
-        handler: this.internalHandler.bind(this),
+        handler: this.getInternalStateHandler.bind(this),
         method: 'get',
         url: '/_internal',
       },
     ];
   }
 
-  internalHandler(req, res) {
+  getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,

@@ -59,6 +59,18 @@ export class PluginApi {
   /**
    * @see https://github.com/benzman81/homebridge-http-webhooks?tab=readme-ov-file#thermostat
    */
+  updateThermostatCurrentState(thermostatId, currentState) {
+    console.log(`[PluginApi] Updating thermostat ID "${thermostatId}" current state to "${currentState}"...`);
+
+    return this.request(thermostatId, { currentstate: currentState });
+  }
+
+  updateThermostatCurrentTemperature(thermostatId, currentTemperature) {
+    console.log(`[PluginApi] Updating thermostat ID "${thermostatId}" current temperature to "${currentTemperature}"...`);
+
+    return this.request(thermostatId, { currenttemperature: currentTemperature });
+  }
+
   updateThermostatTargetState(thermostatId, targetState) {
     console.log(`[PluginApi] Updating thermostat ID "${thermostatId}" target state to "${targetState}"...`);
 

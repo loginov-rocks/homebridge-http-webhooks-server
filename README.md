@@ -28,19 +28,20 @@ to edit the
 **Swagger UI** to point to the correct address and port.
 
 Apart from the endpoints used by the plugin, the server exposes `_internal` endpoints for every accessory that can be
-used to get the current internal state of the accessory, as well as a history of triggered events.
+used to get the current internal state of the accessory, as well as a history of triggered events, or to update some
+internal properties, for example, the current state or temperature for Thermostats.
 
 ## Simulated Accessories
 
 "Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
 triggered outside of **Homebridge**.
 
-| Accessory   | Configuration Field | Supported Features                                  |
-| ----------- | ------------------- | --------------------------------------------------- |
-| Light       | `lights`            | Two-way turning on and off, brightness control      |
-| Push Button | `pushbuttons`       | Two-way push                                        |
-| Switch      | `switches`          | Two-way turning on and off                          |
-| Thermostat  | `thermostats`       | Two-way target state and target temperature control |
+| Accessory   | Configuration Field | Supported Features                                       |
+| ----------- | ------------------- | -------------------------------------------------------- |
+| Light       | `lights`            | Two-way turning on and off, brightness control           |
+| Push Button | `pushbuttons`       | Two-way push                                             |
+| Switch      | `switches`          | Two-way turning on and off                               |
+| Thermostat  | `thermostats`       | Two-way current and target state and temperature control |
 
 Usage of other than GET methods and any type of authorization is currently not supported.
 

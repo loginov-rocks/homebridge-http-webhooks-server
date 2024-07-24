@@ -29,9 +29,9 @@ export class Switch extends AbstractAccessory {
         url: this.getOnUrl(),
       },
       {
-        handler: this.internalHandler.bind(this),
+        handler: this.getInternalStateHandler.bind(this),
         method: 'get',
-        url: this.getInternalUrl(),
+        url: this.getInternalStateUrl(),
       },
     ];
   }
@@ -44,7 +44,7 @@ export class Switch extends AbstractAccessory {
     return `/switches/${this.id}/on`;
   }
 
-  getInternalUrl() {
+  getInternalStateUrl() {
     return `/switches/${this.id}/_internal`;
   }
 
@@ -70,7 +70,7 @@ export class Switch extends AbstractAccessory {
     res.send('OK');
   }
 
-  internalHandler(req, res) {
+  getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,

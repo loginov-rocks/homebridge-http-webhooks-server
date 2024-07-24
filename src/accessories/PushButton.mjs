@@ -22,9 +22,9 @@ export class PushButton extends AbstractAccessory {
         url: this.getPushUrl(),
       },
       {
-        handler: this.internalHandler.bind(this),
+        handler: this.getInternalStateHandler.bind(this),
         method: 'get',
-        url: this.getInternalUrl(),
+        url: this.getInternalStateUrl(),
       },
     ];
   }
@@ -33,7 +33,7 @@ export class PushButton extends AbstractAccessory {
     return `/pushbuttons/${this.id}/push`;
   }
 
-  getInternalUrl() {
+  getInternalStateUrl() {
     return `/pushbuttons/${this.id}/_internal`;
   }
 
@@ -47,7 +47,7 @@ export class PushButton extends AbstractAccessory {
     res.send('OK');
   }
 
-  internalHandler(req, res) {
+  getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,
