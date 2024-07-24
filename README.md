@@ -16,20 +16,35 @@ npm start
 
 ### Docker
 
-```sh
-docker build -t homebridge-http-webhooks-server .
-```
+Assuming you have [Docker](https://www.docker.com) installed and the repository downloaded, create a Docker image and
+start a new container:
 
 ```sh
+docker build -t homebridge-http-webhooks-server .
 docker run -p 3000:3000 homebridge-http-webhooks-server
 ```
+
+Optionally you can override **Homebridge** and server IP addresses defined in [config.json](#configjson) by using the
+[environment variables](#environment-variables):
 
 ```sh
 docker run -e HOMEBRIDGE_ADDRESS=192.168.0.2 -e SERVER_ADDRESS=192.168.0.3 -p 3000:3000 homebridge-http-webhooks-server
 ```
 
+If you run the server on the same computer as **Homebridge** and prefer to avoid using specific IP addresses, you can
+run the Docker container in host network mode, which makes the container use the host's network stack.
+
+This way, the server can communicate with the **Homebridge HTTP Webhooks Plugin** service hosted on the same machine by
+accessing `127.0.0.1` or `localhost` (both values can be used in environment variables).
+
+However, this approach has some security implications since it gives the container full access to the host's network.
+
 ```sh
-docker run -e HOMEBRIDGE_ADDRESS=127.0.0.1 -e SERVER_ADDRESS=127.0.0.1 -p 3000:3000 homebridge-http-webhooks-server
+docker run -e HOMEBRIDGE_ADDRESS=localhost -e SERVER_ADDRESS=localhost --network host homebridge-http-webhooks-server
+```
+
+```sh
+docker run -e HOMEBRIDGE_ADDRESS=127.0.0.1 -e SERVER_ADDRESS=127.0.0.1 --network host homebridge-http-webhooks-server
 ```
 
 ## API
