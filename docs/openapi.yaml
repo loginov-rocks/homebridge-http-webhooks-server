@@ -319,6 +319,64 @@ paths:
                     required:
                       - events
 
+  /sensors/temperature/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Sensors
+        - Temperature Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Temperature Sensor ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemperatureSensorInternalState"
+    patch:
+      summary: Update Internal State
+      tags:
+        - Sensors
+        - Temperature Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Temperature Sensor ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                temperature:
+                  type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemperatureSensorInternalState"
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+
   /switches/{id}/off:
     get:
       summary: Turn Off
@@ -546,6 +604,7 @@ components:
       required:
         - id
         - name
+
     OutletInternalState:
       allOf:
         - $ref: "#/components/schemas/AbstractAcessoryInternalState"
@@ -588,6 +647,31 @@ components:
           required:
             - inUse
             - state
+            - events
+
+    TemperatureSensorInternalState:
+      allOf:
+        - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+        - type: object
+          properties:
+            temperature:
+              type: number
+              nullable: true
+            events:
+              type: array
+              items:
+                type: object
+                properties:
+                  changedAt:
+                    type: string
+                    format: date-time
+                  temperature:
+                    type: number
+                required:
+                  - changedAt
+                  - temperature
+          required:
+            - temperature
             - events
 
     ThermostatInternalState:

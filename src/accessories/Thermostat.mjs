@@ -126,7 +126,7 @@ export class Thermostat extends AbstractAccessory {
       return;
     }
 
-    if (!currentState && !currentTemperature) {
+    if (!currentState && !currentTemperature && currentTemperature !== 0) {
       return this.getInternalStateHandler(req, res);
     }
 
@@ -141,7 +141,7 @@ export class Thermostat extends AbstractAccessory {
       await this.pluginApi.updateThermostatCurrentState(this.id, currentStateInteger);
     }
 
-    if (currentTemperature) {
+    if (currentTemperature || currentTemperature === 0) {
       console.log(`[Thermostat] Thermostat "${this.id}" current temperature was changed to ${currentTemperature}° at ${changedAt}`);
 
       this.currentTemperature = currentTemperature;

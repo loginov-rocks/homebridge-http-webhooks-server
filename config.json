@@ -30,6 +30,13 @@
         "name": "Second Push Button"
       }
     ],
+    "sensors": [
+      {
+        "id": "temperatureSensor",
+        "name": "Temperature Sensor",
+        "type": "temperature"
+      }
+    ],
     "switches": [
       {
         "id": "firstSwitch",

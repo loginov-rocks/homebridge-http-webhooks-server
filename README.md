@@ -69,13 +69,14 @@ internal properties, for example, the current state or temperature for Thermosta
 "Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
 triggered outside of **Homebridge**.
 
-| Accessory   | Configuration Field | Supported Features                                       |
-| ----------- | ------------------- | -------------------------------------------------------- |
-| Light       | `lights`            | Two-way turning on and off, brightness control           |
-| Outlet      | `outlets`           | Two-way turning on and off, outlet in use state          |
-| Push Button | `pushbuttons`       | Two-way push                                             |
-| Switch      | `switches`          | Two-way turning on and off                               |
-| Thermostat  | `thermostats`       | Two-way current and target state and temperature control |
+| Accessory          | Configuration Field | Supported Features                                       |
+| ------------------ | ------------------- | -------------------------------------------------------- |
+| Light              | `lights`            | Two-way turning on and off, brightness control           |
+| Outlet             | `outlets`           | Two-way turning on and off, report outlet in use state   |
+| Push Button        | `pushbuttons`       | Two-way push                                             |
+| Temperature Sensor | `sensors`           | Report temperature                                       |
+| Switch             | `switches`          | Two-way turning on and off                               |
+| Thermostat         | `thermostats`       | Two-way current and target state and temperature control |
 
 Usage of other than GET methods and any type of authorization is currently not supported.
 
@@ -91,32 +92,38 @@ in the plugin configuration because the server will provide this for you.
 
 Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webhooks Plugin**, and server parameters.
 
-| Field                            | Type      | Description                                                                   |
-| -------------------------------- | --------- | ----------------------------------------------------------------------------- |
-| `accessories`                    | `Object`  | Object containing various accessories configuration                           |
-| `accessories.lights`             | `Array`   | Array of Light accessory configurations                                       |
-| `accessories.lights[].id`        | `string`  | Unique identifier for the light                                               |
-| `accessories.lights[].name`      | `string`  | Name of the light                                                             |
-| `accessories.outlets`            | `Array`   | Array of Outlet accessory configurations                                      |
-| `accessories.outlets[].id`       | `string`  | Unique identifier for the outlet                                              |
-| `accessories.outlets[].name`     | `string`  | Name of the outlet                                                            |
-| `accessories.pushbuttons`        | `Array`   | Array of Push Button accessory configurations                                 |
-| `accessories.pushbuttons[].id`   | `string`  | Unique identifier for the push button                                         |
-| `accessories.pushbuttons[].name` | `string`  | Name of the push button                                                       |
-| `accessories.switches`           | `Array`   | Array of Switch accessory configurations                                      |
-| `accessories.switches[].id`      | `string`  | Unique identifier for the switch                                              |
-| `accessories.switches[].name`    | `string`  | Name of the switch                                                            |
-| `accessories.thermostats`        | `Array`   | Array of Thermostat accessory configurations                                  |
-| `accessories.thermostats[].id`   | `string`  | Unique identifier for the thermostat                                          |
-| `accessories.thermostats[].name` | `string`  | Name of the thermostat                                                        |
-| `homebridge`                     | `Object`  | Object containing **Homebridge** settings                                     |
-| `homebridge.address`             | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
-| `plugin`                         | `Object`  | Object containing **Homebridge HTTP Webhooks Plugin** settings                |
-| `plugin.disableWebhooks`         | `boolean` | Set to `true` to disable calls back to the plugin webhooks                    |
-| `plugin.port`                    | `integer` | Port number configured in the plugin, example: `51828`                        |
-| `server`                         | `Object`  | Object containing server settings                                             |
-| `server.address`                 | `string`  | IP address where the server is running, example: `192.168.0.3`                |
-| `server.port`                    | `integer` | Port number for the server, example: `3000`                                   |
+| Field                            | Type       | Description                                                                   |
+| -------------------------------- | ---------- | ----------------------------------------------------------------------------- |
+| `accessories`                    | `Object`   | Object containing various accessories configuration                           |
+| `accessories.lights`             | `Array`    | Array of Light accessory configurations                                       |
+| `accessories.lights[].id`        | `string`   | Unique identifier for the light                                               |
+| `accessories.lights[].name`      | `string`   | Name of the light                                                             |
+| `accessories.outlets`            | `Array`    | Array of Outlet accessory configurations                                      |
+| `accessories.outlets[].id`       | `string`   | Unique identifier for the outlet                                              |
+| `accessories.outlets[].name`     | `string`   | Name of the outlet                                                            |
+| `accessories.pushbuttons`        | `Array`    | Array of Push Button accessory configurations                                 |
+| `accessories.pushbuttons[].id`   | `string`   | Unique identifier for the push button                                         |
+| `accessories.pushbuttons[].name` | `string`   | Name of the push button                                                       |
+| `accessories.sensors`            | `Array`    | Array of Sensor accessory configurations                                      |
+| `accessories.sensors[].id`       | `string`   | Unique identifier for the sensor                                              |
+| `accessories.sensors[].name`     | `string`   | Name of the sensor                                                            |
+| `accessories.sensors[].type`     | `string` * | Type of the sensor                                                            |
+| `accessories.switches`           | `Array`    | Array of Switch accessory configurations                                      |
+| `accessories.switches[].id`      | `string`   | Unique identifier for the switch                                              |
+| `accessories.switches[].name`    | `string`   | Name of the switch                                                            |
+| `accessories.thermostats`        | `Array`    | Array of Thermostat accessory configurations                                  |
+| `accessories.thermostats[].id`   | `string`   | Unique identifier for the thermostat                                          |
+| `accessories.thermostats[].name` | `string`   | Name of the thermostat                                                        |
+| `homebridge`                     | `Object`   | Object containing **Homebridge** settings                                     |
+| `homebridge.address`             | `string`   | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
+| `plugin`                         | `Object`   | Object containing **Homebridge HTTP Webhooks Plugin** settings                |
+| `plugin.disableWebhooks`         | `boolean`  | Set to `true` to disable calls back to the plugin webhooks                    |
+| `plugin.port`                    | `integer`  | Port number configured in the plugin, example: `51828`                        |
+| `server`                         | `Object`   | Object containing server settings                                             |
+| `server.address`                 | `string`   | IP address where the server is running, example: `192.168.0.3`                |
+| `server.port`                    | `integer`  | Port number for the server, example: `3000`                                   |
+
+* - Sensor types currently supported: `temperature`.
 
 ## Environment Variables
 
