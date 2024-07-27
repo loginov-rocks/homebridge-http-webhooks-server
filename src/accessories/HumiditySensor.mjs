@@ -46,14 +46,14 @@ export class HumiditySensor extends AbstractAccessory {
   async patchInternalStateHandler(req, res) {
     const { humidity } = req.body;
 
+    if (typeof humidity === 'undefined') {
+      return this.getInternalStateHandler(req, res);
+    }
+
     if (typeof humidity !== 'number') {
       console.error(`[HumiditySensor] Humidity sensor "${this.id}" humidity cannot be changed to "${humidity}"!`);
       res.status(400).send('Bad Request');
       return;
-    }
-
-    if (!humidity && humidity !== 0) {
-      return this.getInternalStateHandler(req, res);
     }
 
     const changedAt = new Date();

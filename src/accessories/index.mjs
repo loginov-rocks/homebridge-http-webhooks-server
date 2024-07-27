@@ -1,3 +1,4 @@
+import { ContactSensor } from './ContactSensor.mjs';
 import { HumiditySensor } from './HumiditySensor.mjs';
 import { Light } from './Light.mjs';
 import { Outlet } from './Outlet.mjs';
@@ -8,6 +9,7 @@ import { Thermostat } from './Thermostat.mjs';
 
 const sensorsMap = new Map();
 
+sensorsMap.set('contact', ContactSensor);
 sensorsMap.set('humidity', HumiditySensor);
 sensorsMap.set('temperature', TemperatureSensor);
 

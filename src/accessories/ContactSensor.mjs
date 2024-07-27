@@ -1,17 +1,17 @@
 import { AbstractAccessory } from './AbstractAccessory.mjs';
 
-export class TemperatureSensor extends AbstractAccessory {
+export class ContactSensor extends AbstractAccessory {
   constructor(...args) {
     super(...args);
 
-    this.temperature = null;
+    this.inContact = null;
     this.events = [];
   }
 
   getPluginConfig() {
     return {
       ...super.getPluginConfig(),
-      type: 'temperature',
+      type: 'contact',
     };
   }
 
@@ -31,37 +31,37 @@ export class TemperatureSensor extends AbstractAccessory {
   }
 
   getInternalStateUrl() {
-    return `/sensors/temperature/${this.id}/_internal`;
+    return `/sensors/contact/${this.id}/_internal`;
   }
 
   getInternalStateHandler(req, res) {
     res.send({
       id: this.id,
       name: this.name,
-      temperature: this.temperature,
+      inContact: this.inContact,
       events: this.events,
     });
   }
 
   async patchInternalStateHandler(req, res) {
-    const { temperature } = req.body;
+    const { inContact } = req.body;
 
-    if (typeof temperature === 'undefined') {
+    if (typeof inContact === 'undefined') {
       return this.getInternalStateHandler(req, res);
     }
 
-    if (typeof temperature !== 'number') {
-      console.error(`[TemperatureSensor] Temperature sensor "${this.id}" temperature cannot be changed to "${temperature}"!`);
+    if (inContact !== false && inContact !== true) {
+      console.error(`[ContactSensor] Contact sensor "${this.id}" in contact state cannot be changed to "${inContact}"!`);
       res.status(400).send('Bad Request');
       return;
     }
 
     const changedAt = new Date();
-    console.log(`[TemperatureSensor] Temperature sensor "${this.id}" temperature was changed to ${temperature}° at ${changedAt}`);
+    console.log(`[ContactSensor] Contact sensor "${this.id}" was changed to ${inContact ? '' : 'not '}in contact at ${changedAt}`);
 
-    this.temperature = temperature;
-    this.events.push({ changedAt, temperature });
-    await this.pluginApi.updateValue(this.id, temperature);
+    this.inContact = inContact;
+    this.events.push({ changedAt, inContact });
+    await this.pluginApi.updateState(this.id, inContact);
 
     return this.getInternalStateHandler(req, res);
   }

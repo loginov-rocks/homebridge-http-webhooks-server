@@ -100,7 +100,7 @@ export class Outlet extends AbstractAccessory {
     }
 
     const changedAt = new Date();
-    console.log(`[Outlet] Outlet "${this.id}" was changed to ${inUse ? '' : 'not '}in use`);
+    console.log(`[Outlet] Outlet "${this.id}" was changed to ${inUse ? '' : 'not '}in use at ${changedAt}`);
 
     this.inUse = inUse;
     this.events.push({ changedAt, inUse });

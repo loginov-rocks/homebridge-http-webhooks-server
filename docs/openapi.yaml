@@ -319,6 +319,64 @@ paths:
                     required:
                       - events
 
+  /sensors/contact/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Sensors
+        - Contact Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Contact Sensor ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactSensorInternalState"
+    patch:
+      summary: Update Internal State
+      tags:
+        - Sensors
+        - Contact Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Contact Sensor ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inContact:
+                  type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactSensorInternalState"
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+
   /sensors/humidity/{id}/_internal:
     get:
       summary: Get Internal State
@@ -662,6 +720,31 @@ components:
       required:
         - id
         - name
+
+    ContactSensorInternalState:
+      allOf:
+        - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+        - type: object
+          properties:
+            inContact:
+              type: boolean
+              nullable: true
+            events:
+              type: array
+              items:
+                type: object
+                properties:
+                  changedAt:
+                    type: string
+                    format: date-time
+                  inContact:
+                    type: boolean
+                required:
+                  - changedAt
+                  - inContact
+          required:
+            - inContact
+            - events
 
     HumiditySensorInternalState:
       allOf:

@@ -20,6 +20,11 @@
     ],
     "sensors": [
       {
+        "id": "contactSensor",
+        "name": "Contact Sensor",
+        "type": "contact"
+      },
+      {
         "id": "humiditySensor",
         "name": "Humidity Sensor",
         "type": "humidity"

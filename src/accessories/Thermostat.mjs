@@ -114,6 +114,10 @@ export class Thermostat extends AbstractAccessory {
   async patchInternalStateHandler(req, res) {
     const { currentState, currentTemperature } = req.body;
 
+    if (typeof currentState === 'undefined' && typeof currentTemperature === 'undefined') {
+      return this.getInternalStateHandler(req, res);
+    }
+
     if (currentState && !['off', 'heat', 'cool'].includes(currentState)) {
       console.error(`[Thermostat] Thermostat "${this.id}" current state cannot be changed to "${currentState}"!`);
       res.status(400).send('Bad Request');
@@ -124,10 +128,6 @@ export class Thermostat extends AbstractAccessory {
       console.error(`[Thermostat] Thermostat "${this.id}" current temperature cannot be changed to "${currentTemperature}"!`);
       res.status(400).send('Bad Request');
       return;
-    }
-
-    if (!currentState && !currentTemperature && currentTemperature !== 0) {
-      return this.getInternalStateHandler(req, res);
     }
 
     const changedAt = new Date();
