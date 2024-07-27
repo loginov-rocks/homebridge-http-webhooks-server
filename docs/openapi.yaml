@@ -319,6 +319,64 @@ paths:
                     required:
                       - events
 
+  /sensors/humidity/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Sensors
+        - Humidity Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Humidity Sensor ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HumiditySensorInternalState"
+    patch:
+      summary: Update Internal State
+      tags:
+        - Sensors
+        - Humidity Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Humidity Sensor ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                humidity:
+                  type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HumiditySensorInternalState"
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+
   /sensors/temperature/{id}/_internal:
     get:
       summary: Get Internal State
@@ -604,6 +662,31 @@ components:
       required:
         - id
         - name
+
+    HumiditySensorInternalState:
+      allOf:
+        - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+        - type: object
+          properties:
+            humidity:
+              type: number
+              nullable: true
+            events:
+              type: array
+              items:
+                type: object
+                properties:
+                  changedAt:
+                    type: string
+                    format: date-time
+                  humidity:
+                    type: number
+                required:
+                  - changedAt
+                  - humidity
+          required:
+            - humidity
+            - events
 
     OutletInternalState:
       allOf:

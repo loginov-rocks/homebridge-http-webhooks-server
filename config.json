@@ -32,6 +32,11 @@
     ],
     "sensors": [
       {
+        "id": "humiditySensor",
+        "name": "Humidity Sensor",
+        "type": "humidity"
+      },
+      {
         "id": "temperatureSensor",
         "name": "Temperature Sensor",
         "type": "temperature"

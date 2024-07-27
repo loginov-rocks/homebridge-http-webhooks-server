@@ -1,3 +1,4 @@
+import { HumiditySensor } from './HumiditySensor.mjs';
 import { Light } from './Light.mjs';
 import { Outlet } from './Outlet.mjs';
 import { PushButton } from './PushButton.mjs';
@@ -7,6 +8,7 @@ import { Thermostat } from './Thermostat.mjs';
 
 const sensorsMap = new Map();
 
+sensorsMap.set('humidity', HumiditySensor);
 sensorsMap.set('temperature', TemperatureSensor);
 
 export const accessoriesMap = new Map();
