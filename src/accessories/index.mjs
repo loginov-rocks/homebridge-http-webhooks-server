@@ -1,6 +1,7 @@
 import { ContactSensor } from './ContactSensor.mjs';
 import { HumiditySensor } from './HumiditySensor.mjs';
 import { Light } from './Light.mjs';
+import { MotionSensor } from './MotionSensor.mjs';
 import { Outlet } from './Outlet.mjs';
 import { PushButton } from './PushButton.mjs';
 import { Switch } from './Switch.mjs';
@@ -11,6 +12,7 @@ const sensorsMap = new Map();
 
 sensorsMap.set('contact', ContactSensor);
 sensorsMap.set('humidity', HumiditySensor);
+sensorsMap.set('motion', MotionSensor);
 sensorsMap.set('temperature', TemperatureSensor);
 
 export const accessoriesMap = new Map();

@@ -435,6 +435,64 @@ paths:
                 type: string
                 example: Bad Request
 
+  /sensors/motion/{id}/_internal:
+    get:
+      summary: Get Internal State
+      tags:
+        - Sensors
+        - Motion Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Motion Sensor ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MotionSensorInternalState"
+    patch:
+      summary: Update Internal State
+      tags:
+        - Sensors
+        - Motion Sensors
+        - Internal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Motion Sensor ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inMotion:
+                  type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MotionSensorInternalState"
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+
   /sensors/temperature/{id}/_internal:
     get:
       summary: Get Internal State
@@ -769,6 +827,31 @@ components:
                   - humidity
           required:
             - humidity
+            - events
+
+    MotionSensorInternalState:
+      allOf:
+        - $ref: "#/components/schemas/AbstractAcessoryInternalState"
+        - type: object
+          properties:
+            inMotion:
+              type: boolean
+              nullable: true
+            events:
+              type: array
+              items:
+                type: object
+                properties:
+                  changedAt:
+                    type: string
+                    format: date-time
+                  inMotion:
+                    type: boolean
+                required:
+                  - changedAt
+                  - inMotion
+          required:
+            - inMotion
             - events
 
     OutletInternalState:

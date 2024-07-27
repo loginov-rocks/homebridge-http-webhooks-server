@@ -74,6 +74,7 @@ triggered outside of **Homebridge**.
 | Contact Sensor     | `sensors`           | Report in contact state                                  |
 | Humidity Sensor    | `sensors`           | Report humidity                                          |
 | Light              | `lights`            | Two-way turning on and off, brightness control           |
+| Motion Sensor      | `sensors`           | Report in motion state                                   |
 | Outlet             | `outlets`           | Two-way turning on and off, report outlet in use state   |
 | Push Button        | `pushbuttons`       | Two-way push                                             |
 | Temperature Sensor | `sensors`           | Report temperature                                       |
@@ -125,7 +126,7 @@ Additionally, you need to configure some **Homebridge**, **Homebridge HTTP Webho
 | `server.address`                 | `string`  | IP address where the server is running, example: `192.168.0.3`                |
 | `server.port`                    | `integer` | Port number for the server, example: `3000`                                   |
 
-Sensor types currently supported: `contact`, `humidity`, `temperature`.
+Sensor types currently supported: `contact`, `humidity`, `motion`, `temperature`.
 
 ## Environment Variables
 

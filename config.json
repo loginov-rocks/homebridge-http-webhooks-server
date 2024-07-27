@@ -30,6 +30,11 @@
         "type": "humidity"
       },
       {
+        "id": "motionSensor",
+        "name": "Motion Sensor",
+        "type": "motion"
+      },
+      {
         "id": "temperatureSensor",
         "name": "Temperature Sensor",
         "type": "temperature"
