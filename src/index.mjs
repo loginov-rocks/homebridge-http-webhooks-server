@@ -1,7 +1,10 @@
 import cors from 'cors';
 import express from 'express';
 
-import { CONFIG_RELATIVE_PATH, HOMEBRIDGE_ADDRESS, PLUGIN_CONFIG_PLATFORM, SERVER_ADDRESS } from './constants.mjs';
+import {
+  CONFIG_RELATIVE_PATH, HOMEBRIDGE_ADDRESS, PLUGIN_CONFIG_PLATFORM, PLUGIN_DISABLE_WEBHOOKS, PLUGIN_PORT,
+  SERVER_ADDRESS,
+} from './constants.mjs';
 
 import { accessoriesMap } from './accessories/index.mjs';
 
@@ -12,19 +15,21 @@ import { PluginApi } from './lib/PluginApi.mjs';
 import { readConfig } from './lib/readConfig.mjs';
 
 const config = readConfig(CONFIG_RELATIVE_PATH);
-const homebridgeAddress = HOMEBRIDGE_ADDRESS ? HOMEBRIDGE_ADDRESS : config.homebridge.address;
-const serverAddress = SERVER_ADDRESS ? SERVER_ADDRESS : config.server.address;
+const homebridgeAddress = HOMEBRIDGE_ADDRESS === null ? config.homebridge.address : HOMEBRIDGE_ADDRESS;
+const pluginDisableWebhooks = PLUGIN_DISABLE_WEBHOOKS === null ? config.plugin.disableWebhooks : PLUGIN_DISABLE_WEBHOOKS;
+const pluginPort = PLUGIN_PORT === null ? config.plugin.port : PLUGIN_PORT;
+const serverAddress = SERVER_ADDRESS === null ? config.server.address : SERVER_ADDRESS;
 
 const baseUrl = `http://${serverAddress}:${config.server.port}`;
 const pluginApi = new PluginApi({
   address: homebridgeAddress,
-  disableWebhooks: config.plugin.disableWebhooks,
-  port: config.plugin.port,
+  disableWebhooks: pluginDisableWebhooks,
+  port: pluginPort,
 });
 const accessories = accessoriesFactory(accessoriesMap, config.accessories, { baseUrl, pluginApi });
 const pluginConfig = getPluginConfig(accessories, {
   platform: PLUGIN_CONFIG_PLATFORM,
-  port: config.plugin.port,
+  port: pluginPort,
 });
 const routes = getRoutes(accessories);
 

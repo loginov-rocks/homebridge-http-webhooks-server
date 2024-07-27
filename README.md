@@ -2,6 +2,14 @@
 
 Server for the [homebridge-http-webhooks](https://github.com/benzman81/homebridge-http-webhooks) plugin.
 
+<!-- no toc -->
+* [Quick Start](#quick-start)
+  * [Docker](#docker)
+* [API](#api)
+* [Simulated Accessories](#simulated-accessories)
+* [config.json](#configjson)
+* [Environment Variables](#environment-variables)
+
 ## Quick Start
 
 1. Assuming you have [Homebridge](https://homebridge.io) and **Homebridge HTTP Webhooks Plugin** set up and running,
@@ -132,7 +140,9 @@ Sensor types currently supported: `contact`, `humidity`, `motion`, `temperature`
 
 Optional, override `config.json`, useful when using Docker.
 
-| Variable             | Type     | Description                                                                   |
-| -------------------- | -------- | ----------------------------------------------------------------------------- |
-| `HOMEBRIDGE_ADDRESS` | `string` | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
-| `SERVER_ADDRESS`     | `string` | IP address where the server is running, example: `192.168.0.3`                |
+| Variable                  | Type      | Description                                                                   |
+| ------------------------- | --------- | ----------------------------------------------------------------------------- |
+| `HOMEBRIDGE_ADDRESS`      | `string`  | IP address where the **Homebridge** server is running, example: `192.168.0.2` |
+| `PLUGIN_DISABLE_WEBHOOKS` | `boolean` | Set to `true` to disable calls back to the plugin webhooks                    |
+| `PLUGIN_PORT`             | `integer` | Port number configured in the plugin, example: `51828`                        |
+| `SERVER_ADDRESS`          | `string`  | IP address where the server is running, example: `192.168.0.3`                |
