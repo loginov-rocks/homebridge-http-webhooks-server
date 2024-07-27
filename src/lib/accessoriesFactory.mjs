@@ -1,6 +1,7 @@
 export const accessoriesFactory = (accessoriesMap, accessoriesConfig, { baseUrl, pluginApi }) => {
   const accessories = {};
   const keys = Object.keys(accessoriesConfig);
+  const accessoriesIds = [];
 
   keys.forEach((key) => {
     if (!accessoriesMap.has(key)) {
@@ -9,23 +10,32 @@ export const accessoriesFactory = (accessoriesMap, accessoriesConfig, { baseUrl,
     }
 
     const accessoriesArray = accessoriesConfig[key].map((accessoryConfig) => {
-      let ConcreteAccessory;
-      if (accessoryConfig.type) {
-        const typeMap = accessoriesMap.get(key);
+      const { id, type } = accessoryConfig;
 
-        if (!typeMap.has(accessoryConfig.type)) {
-          console.warn(`[accessoriesFactory] Accessories "${key}" with type "${accessoryConfig.type}" are not supported!`);
+      if (accessoriesIds.includes(id)) {
+        console.warn(`[accessoriesFactory] Accessory ID "${id}" must be unique across all accessories!`);
+        return null;
+      } else {
+        accessoriesIds.push(id);
+      }
+
+      let ConcreteAccessory;
+      if (type) {
+        const typesMap = accessoriesMap.get(key);
+
+        if (!typesMap.has(type)) {
+          console.warn(`[accessoriesFactory] Accessories "${key}" with type "${type}" are not supported!`);
           return null;
         }
 
-        ConcreteAccessory = typeMap.get(accessoryConfig.type);
+        ConcreteAccessory = typesMap.get(type);
       } else {
         ConcreteAccessory = accessoriesMap.get(key);
       }
 
       return new ConcreteAccessory({
         baseUrl,
-        id: accessoryConfig.id,
+        id,
         name: accessoryConfig.name,
         pluginApi,
       });

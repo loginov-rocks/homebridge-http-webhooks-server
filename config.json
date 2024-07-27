@@ -2,32 +2,20 @@
   "accessories": {
     "lights": [
       {
-        "id": "firstLight",
-        "name": "First Light"
-      },
-      {
-        "id": "secondLight",
-        "name": "Second Light"
+        "id": "light",
+        "name": "Light"
       }
     ],
     "outlets": [
       {
-        "id": "firstOutlet",
-        "name": "First Outlet"
-      },
-      {
-        "id": "secondOutlet",
-        "name": "Second Outlet"
+        "id": "outlet",
+        "name": "Outlet"
       }
     ],
     "pushbuttons": [
       {
-        "id": "firstPushButton",
-        "name": "First Push Button"
-      },
-      {
-        "id": "secondPushButton",
-        "name": "Second Push Button"
+        "id": "pushButton",
+        "name": "Push Button"
       }
     ],
     "sensors": [
@@ -44,28 +32,14 @@
     ],
     "switches": [
       {
-        "id": "firstSwitch",
-        "name": "First Switch"
-      },
-      {
-        "id": "secondSwitch",
-        "name": "Second Switch"
+        "id": "switch",
+        "name": "Switch"
       }
     ],
     "thermostats": [
       {
-        "id": "firstThermostat",
-        "name": "First Thermostat"
-      },
-      {
-        "id": "secondThermostat",
-        "name": "Second Thermostat"
-      }
-    ],
-    "unsupported": [
-      {
-        "id": "unsupportedDevice",
-        "name": "Unsupported Device"
+        "id": "thermostat",
+        "name": "Thermostat"
       }
     ]
   },
