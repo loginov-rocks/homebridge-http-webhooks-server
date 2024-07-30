@@ -12,7 +12,7 @@ Server for the [homebridge-http-webhooks](https://github.com/benzman81/homebridg
     * [Option A) Standalone Server](#option-a-standalone-server)
     * [Option B) Homebridge Server](#option-b-homebridge-server)
 * [API](#api)
-* [Simulated Accessories](#simulated-accessories)
+* [Emulated Accessories](#emulated-accessories)
 * [config.json](#configjson)
 * [Environment Variables](#environment-variables)
 
@@ -63,32 +63,37 @@ docker run -e HOMEBRIDGE_ADDRESS=127.0.0.1 -e SERVER_ADDRESS=127.0.0.1 --network
 
 ## Architecture
 
-![Component View](https://raw.githubusercontent.com/loginov-rocks/homebridge-http-webhooks-server/main/docs/aws/Component-View.png)
+The **Homebridge HTTP Webhooks Server** acts as a middleware to integrate custom devices and services that do not
+support HomeKit, **Homebridge**, or the **HomeHomebridge HTTP Webhooks Plugin** API. It helps translate data and
+commands enabling control of external devices and services through the **Apple Home App**. The server can be deployed
+on the same machine as **Homebridge** or to a **Standalone Server**.
+
+![Component View](https://raw.githubusercontent.com/loginov-rocks/homebridge-http-webhooks-server/main/docs/Component-View.png)
 
 ### Components and Communication
 
 1. **Apple Home Users** interact with the Apple Home ecosystem using **Apple Client Devices**.
 2. **Apple Client Devices** such as iPhones, iPads, and Macs run the **Apple Home App**:
-  * Provide _local access_ to **Homebridge** if they are on the same network (LAN).
-  * Provide _remote access_ to **Homebridge** over the **Apple Home Hub** if they aren't on the same network (LAN).
-3. **Apple Home App** installed on **Apple Client Devices** allows users to manage their **HomeKit**-enabled devices.
-4. **Apple Home Hub** is a device such as an Apple TV, HomePod, or iPad that acts as a hub for **HomeKit**:
-  * Provides _local_ and _remote access_ to **Homebridge** (disclaimer: this description is simplified).
+    * Provide _local access_ to **Homebridge** if they are on the same network.
+    * Provide _remote access_ to **Homebridge** over the **Apple Home Hub** if they aren't on the same network.
+3. **Apple Home App** installed on **Apple Client Devices** allows users to manage their HomeKit-enabled devices.
+4. **Apple Home Hub** is a device such as an Apple TV, HomePod, or iPad that acts as a hub for HomeKit:
+    * Provides _local_ and _remote access_ to **Homebridge** (disclaimer: this description is simplified).
 5. **Homebridge Server** is a device such as Raspberry Pi running **Homebridge**:
-  * Hosts the **Homebridge HTTP Webhooks Plugin** to integrate with custom devices and services supporting its API.
-  * Communicates with the **Apple Home App** and **HomeKit** over the LAN via emulating the **HomeKit** API.
+    * Hosts the **Homebridge HTTP Webhooks Plugin** to integrate with custom devices and services supporting its API.
+    * Communicates with the **Apple Home App** and HomeKit over the LAN via emulating the HomeKit API.
 6. **Homebridge HTTP Webhooks Plugin** uses its API to interface with custom devices and services.
 7. **Homebridge HTTP Webhooks Server**:
-  * Communicates with **Homebridge HTTP Webhooks Plugin** using the _plugin API_.
-  * Can be deployed on the server running **Homebridge** or to a **Standalone Server** within the same network (LAN).
-  * Interfaces with **Controlled Devices** and **Services** using their _custom API_.
-8. **Controlled Devices** and **Services** managed via their _custom API_s:
-  * Can be located either in the same or another network accessible over the public internet.
+    * Communicates with **Homebridge HTTP Webhooks Plugin** using the _plugin API_.
+    * Interfaces with **Controlled Devices** and **Services** using their _custom APIs_.
+    * Can be deployed on the server running **Homebridge** or to a **Standalone Server** located in the same network.
+8. **Controlled Devices** and **Services** managed via their _custom APIs_:
+    * Can be located either in the same or another network accessible over the public internet.
 
 ### Networks
 
 1. **LAN** (Local Area Network) is used for communication between **Apple Client Devices**, the **Apple Home Hub**, the
-   **Homebridge Server**, and the **Homebridge HTTP Webhooks Server** if deployed on a **Standalone Server**.
+   **Homebridge Server**, and the **Homebridge HTTP Webhooks Server** (in case deployed on a **Standalone Server**).
 2. **Public Internet** is used for remote access, allowing **Apple Client Devices** to communicate with the **Apple
    Home Hub** when not connected to the same network.
 
@@ -121,7 +126,7 @@ Apart from the endpoints used by the plugin, the server exposes `_internal` endp
 used to get the current internal state of the accessory, as well as a history of triggered events, or to update some
 internal properties, for example, the current state or temperature for Thermostats.
 
-## Simulated Accessories
+## Emulated Accessories
 
 "Two-way" means the accessory is controlled by **Homebridge**, but also will report its updated state or value when
 triggered outside of **Homebridge**.
